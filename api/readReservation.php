@@ -3,7 +3,7 @@
     header("Content-Type: application/json; charset=UTF-8");
     
     include_once '../config/database.php';
-    include_once '../class/Reservation.php';
+    include_once '../model/Reservation.php';
 
     $database = new Database();
     $db = $database->getConnection();

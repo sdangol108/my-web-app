@@ -30,7 +30,7 @@
             return false;
         }
 
-        public function createCustomer() {
+        public function create() {
             $sqlQuery = "INSERT INTO
                     ". $this->db_table ."
                 SET
@@ -60,7 +60,7 @@
             return false;
         }
 
-        public function findCustomerId() {
+        public function findId() {
             $select_customer_id = "SELECT id from ". $this->db_table ." WHERE email = :email";
             $stmt = $this->conn->prepare($select_customer_id);
             $this->email = htmlspecialchars(strip_tags($this->email));

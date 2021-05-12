@@ -1,13 +1,10 @@
 
 <?php
-    class Inventory{
-        // Connection
+    class Inventory {
         private $conn;
 
-        // Table
         private $db_table = "Inventory";
 
-        // Columns
         public $id;
         public $start_time;
         public $end_time;
@@ -18,14 +15,28 @@
             $this->conn = $db;
         }
 
-        public function getInventory(){
-            $sqlQuery = "SELECT * FROM " . $this->db_table . "";
+        public function getAll(){
+            $sqlQuery = "SELECT * FROM " . $this->db_table . "
+                INNER JOIN Reservation on inventory.id = reservation.inventory_id WHERE
+                reservation.reservation_datetime BETWEEN :start_date and :end_date";
             $stmt = $this->conn->prepare($sqlQuery);
-            $stmt->execute();
-            return $stmt;
+
+            $this->start_time = htmlspecialchars(strip_tags($this->start_date));
+            $this->end_time = htmlspecialchars(strip_tags($this->end_date));
+
+            $stmt->bindParam(":start_date", $this->start_time);
+            $stmt->bindParam(":end_date", $this->start_time);
+            if($stmt->execute()){
+                echo 2121;
+                var_dump($stmt->fetch(PDO::FETCH_ASSOC));
+                return $stmt;
+             } else {
+                var_dump($stmt->errorInfo());
+             }
+            return false;
         }
 
-        public function createInventory(){
+        public function create(){
             $sqlQuery = "INSERT INTO
                         ". $this->db_table ."
                     SET
@@ -46,32 +57,29 @@
             $stmt->bindParam(":end_time", $this->end_time);
             $stmt->bindParam(":reservation_nos", $this->reservation_nos);
             $stmt->bindParam(":created_at", $this->created_at);
-        
             if($stmt->execute()){
                return true;
+            } else {
+               var_dump($stmt->errorInfo());
             }
             return false;
         }
 
-        public function selectInventoryId($reservation_time) {
-            $sqlQuery = "SELECT * from inventory   
-                            ". $this->db_table ."  
+        public function selectId($reservation_time) {
+            $sqlQuery = "SELECT * from    
+                            ". $this->db_table ."  where
                         start_time <= :start_time and end_time >= :end_time";
             $stmt = $this->conn->prepare($sqlQuery);
-            echo $reservation_time;
-            // $this->start_time=htmlspecialchars(strip_tags($this->start_time));
-            // $this->end_time=htmlspecialchars(strip_tags($this->end_time));
             $stmt->bindParam(":start_time", $reservation_time);
             $stmt->bindParam(":end_time", $reservation_time);
-
             $stmt->execute();
             if ($stmt->rowCount() > 0) {
-
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $this->reservation_nos = $result[0]['reservation_nos'];
                 var_dump($result[0]['id']);
                 return $result[0]['id'];
              } else {
-                 echo 43434;
+                var_dump($stmt->errorInfo());
              }
              return false;
         }

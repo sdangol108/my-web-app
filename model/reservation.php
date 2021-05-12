@@ -1,7 +1,7 @@
 
 <?php
     include_once '../class/customer.php';
-    class Reservation{
+    class Reservation {
         private $conn;
 
         private $db_table = "Reservation";
@@ -11,18 +11,19 @@
         public $customer_id;
         public $inventory_id;
         public $created_at;
+        public $reservation_count;
 
         public function __construct($db){
             $this->conn = $db;
         }
 
-        public function getReservation(){
+        public function getAll(){
             $sqlQuery = "SELECT * FROM " . $this->db_table . "";
             $stmt = $this->conn->prepare($sqlQuery);
             $stmt->execute();
             return $stmt;
         }
-        public function createReservation(){
+        public function create(){
             $sqlQuery = "INSERT INTO
                         ". $this->db_table ."
                     SET
@@ -44,12 +45,21 @@
             $stmt->bindParam(":reservation_datetime", $this->reservation_datetime);
             $stmt->bindParam(":customer_id", $this->customer_id);
             $stmt->bindParam(":inventory_id", $this->inventory_id);
-            // $stmt->bindParam(":created_at", $this->created_at);
         
             if($stmt->execute()){
                return true;
+            } else {
+                var_dump($stmt->errorInfo());
             }
             return false;
+        }
+
+        public function countReservedTimeSlots($inventory_id) {
+            $sqlQuery = "SELECT count(*) FROM " . $this->db_table . " where inventory_id= :id";
+            $stmt = $this->conn->prepare($sqlQuery);
+            $stmt->bindParam(":id", $inventory_id);
+            $stmt->execute();
+            return $stmt->rowCount();
         }
     }
 ?>
