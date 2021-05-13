@@ -1,7 +1,7 @@
 <?php
     header("Access-Control-Allow-Origin: *");
     header("Content-Type: application/json; charset=UTF-8");
-    header("Access-Control-Allow-Methods: GET");
+    header("Access-Control-Allow-Methods: POST");
     include_once '../config/database.php';
     include_once '../model/inventory.php';
 
@@ -9,15 +9,10 @@
     $db = $database->getConnection();
 
     $inventory = new Inventory($db);
-
     $stmt = $inventory->getAll();
     $itemCount = $stmt->rowCount();
-    echo $stmt->fetch(PDO::FETCH_ASSOC);
-    echo $_SERVER['REQUEST_METHOD'];
-    echo $_SERVER['HTTP_ORIGIN'];
 
-
-    if($itemCount > 0){
+    if($itemCount > 0) {
         $inventoryArr = array();
         $inventoryArr["body"] = array();
         $inventoryArr["itemCount"] = $itemCount;

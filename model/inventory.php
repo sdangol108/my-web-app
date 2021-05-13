@@ -19,16 +19,16 @@
             $sqlQuery = "SELECT * FROM " . $this->db_table . "
                 INNER JOIN Reservation on inventory.id = reservation.inventory_id WHERE
                 reservation.reservation_datetime BETWEEN :start_date and :end_date";
+            $sqlQuery = "SELECT * FROM " . $this->db_table . "
+                INNER JOIN Reservation on inventory.id = reservation.inventory_id";
             $stmt = $this->conn->prepare($sqlQuery);
 
             $this->start_time = htmlspecialchars(strip_tags($this->start_date));
             $this->end_time = htmlspecialchars(strip_tags($this->end_date));
 
             $stmt->bindParam(":start_date", $this->start_time);
-            $stmt->bindParam(":end_date", $this->start_time);
+            $stmt->bindParam(":end_date", $this->end_time);
             if($stmt->execute()){
-                echo 2121;
-                var_dump($stmt->fetch(PDO::FETCH_ASSOC));
                 return $stmt;
              } else {
                 var_dump($stmt->errorInfo());
