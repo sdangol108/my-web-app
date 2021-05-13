@@ -21,7 +21,7 @@
                 "start_time" => $start_time,
                 "end_time" => $end_time,
                 "reservation_nos" => $reservation_nos,
-                "age" => $created_at
+                "created_at" => $created_at
             );
             array_push($inventoryArr["body"], $e);
         }
