@@ -1,6 +1,5 @@
 
 <?php
-    include_once '../class/customer.php';
     class Reservation {
         private $conn;
 
@@ -48,9 +47,9 @@
         
             if($stmt->execute()){
                return true;
-            } else {
-                var_dump($stmt->errorInfo());
-            }
+            } //else {
+                //var_dump($stmt->errorInfo());
+            //}
             return false;
         }
 

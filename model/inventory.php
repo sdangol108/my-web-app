@@ -30,9 +30,9 @@
             $stmt->bindParam(":end_date", $this->end_time);
             if($stmt->execute()){
                 return $stmt;
-             } else {
-                var_dump($stmt->errorInfo());
-             }
+             } //else {
+              //  var_dump($stmt->errorInfo());
+            // }
             return false;
         }
 
@@ -59,9 +59,9 @@
             $stmt->bindParam(":created_at", $this->created_at);
             if($stmt->execute()){
                return true;
-            } else {
-               var_dump($stmt->errorInfo());
-            }
+            } //else {
+               //var_dump($stmt->errorInfo());
+            //}
             return false;
         }
 
@@ -73,14 +73,16 @@
             $stmt->bindParam(":start_time", $reservation_time);
             $stmt->bindParam(":end_time", $reservation_time);
             $stmt->execute();
+            // var_dump($stmt->rowCount());
             if ($stmt->rowCount() > 0) {
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $this->reservation_nos = $result[0]['reservation_nos'];
-                var_dump($result[0]['id']);
+                // var_dump($result[0]['id']);
                 return $result[0]['id'];
-             } else {
-                var_dump($stmt->errorInfo());
-             }
+                
+             } //else {
+            //     var_dump($stmt->errorInfo());
+            //  }
              return false;
         }
     }

@@ -54,9 +54,9 @@
         
             if($stmt->execute()){
                 return true;
-            } else {
-                var_dump($stmt->errorInfo());
-            }
+            } //else {
+              //  var_dump($stmt->errorInfo());
+           // }
             return false;
         }
 
@@ -68,7 +68,7 @@
             $stmt->execute();
             if ($stmt->rowCount() > 0) {
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                echo $result;
+                // echo $result;
                 return $result[0]['id'];
              }
             return false;

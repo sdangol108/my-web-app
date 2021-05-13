@@ -11,7 +11,6 @@
     $inventory = new Inventory($db);
     $stmt = $inventory->getAll();
     $itemCount = $stmt->rowCount();
-
     if($itemCount > 0) {
         $inventoryArr = array();
         $inventoryArr["body"] = array();
